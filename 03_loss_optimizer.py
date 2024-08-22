@@ -41,6 +41,9 @@ optimizer = torch.optim.SGD(params=model.parameters(),lr=learningRate)
 # Training
 for epoch in range(nIters):
     #forward pass
+    #here,The forward method is called from the __call__ function of nn.Module,
+    #so that when we run model(input), the forward method is called.
+    # So, we can use model(x) instead of model.forward(x).
     yPred = model(x)
     
     #loss
