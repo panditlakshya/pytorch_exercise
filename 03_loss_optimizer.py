@@ -7,7 +7,6 @@ y = torch.tensor([[2],[4],[6],[8]],dtype=torch.float32)
 # w = torch.tensor(0.0,dtype=torch.float32,requires_grad=True)
 
 nSamples,nFeatures = x.shape
-print("nSamples,nFeatures",nSamples,nFeatures)
 
 # test data prediction (5)
 xTest = torch.tensor([5],dtype=torch.float32)
