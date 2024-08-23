@@ -53,8 +53,6 @@ for epoch in range(num_epochs):
             print(f'Epoch: {epoch+1}/{num_epochs}, Step {i+1}/{n_iterations}| Inputs {inputs.shape} | Labels {labels.shape}')
             
 
-
-
 train_dataset = torchvision.datasets.MNIST(root='./data', 
                                            train=True, 
                                            transform=torchvision.transforms.ToTensor(),  
