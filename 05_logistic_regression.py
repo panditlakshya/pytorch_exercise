@@ -26,7 +26,7 @@ yTest = yTest.view(yTest.shape[0],1)
 
 class LogisticRegression(nn.Module):
     def __init__(self,nInputFeatures):
-        super().__init__()
+        super(LogisticRegression,self).__init__()
         self.linear=nn.Linear(nInputFeatures,1)
         
     def forward(self,x):

@@ -40,7 +40,7 @@ for epoch in range(numEpochs):
         print(f'epoch {epoch+1}: w = {model.weight.item():.3f}, loss = {l.item():.8f}')
         
 #plot
-#model(x).detach() makes requires_grad to false
+#model(x).detach() makes requires_grad to false or we can use with torch.no_grad():
 predicted = model(x).detach().numpy()
 plt.plot(xNumpy, yNumpy, 'ro')
 plt.plot(xNumpy, predicted, 'b')
