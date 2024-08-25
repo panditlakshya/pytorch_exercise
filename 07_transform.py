@@ -56,7 +56,7 @@ print(type(features), type(labels))
 print(features, labels)
 
 print('With MulTransform') 
-dataset = WineData(transform=MulTransform(2)) # 2*features, 2*labels (or 2*data())   
+dataset = WineData(transform=MulTransform(2))  
 print(dataset[0]) 
 firstData = dataset[0]
 features, labels = firstData
