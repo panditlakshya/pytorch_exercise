@@ -27,3 +27,35 @@ x = torch.tensor([2,1,0.1],dtype=torch.float32)
 y= torch.softmax(x,dim=0) # dim = 0 is same as we do in numpy for axis
 print(x,y)
 
+#Cross entropy
+# true label : One-hot encoding - [1,0,0]
+# Predicted : [0.7,0.2,0.1] 
+# loss = -1 * sum(y * log(y_predicted))
+
+def crossEntropy(y,yPred):
+    return -np.sum(np.log(yPred) * y,axis=0)
+
+Y = np.array([1, 0, 0])
+yPredGood = np.array([0.7, 0.2, 0.1])
+yPredBad = np.array([0.1, 0.3, 0.6])
+l1 = crossEntropy(Y, yPredGood)
+l2 = crossEntropy(Y, yPredBad)
+print(l1,l2)
+
+loss = nn.CrossEntropyLoss()
+
+# target is of size nSamples = 1
+# each element has class label: 0, 1, or 2
+# Y (=target) contains class labels, not one-hot
+Y = torch.tensor([0])
+
+yPredGood = torch.tensor([[0.7, 0.2, 0.1]])
+yPredBad = torch.tensor([[0.1, 0.3, 0.6]])
+l1 = loss(yPredGood, Y)
+l2 = loss(yPredBad, Y)
+print(l1.item(),l2.item())
+
+_, predictions1 = torch.max(yPredGood, 1)
+_, predictions2 = torch.max(yPredBad, 1)
+print(f'Actual class: {Y.item()}, Y_pred1: {predictions1.item()}, Y_pred2: {predictions2.item()}')
+ 
