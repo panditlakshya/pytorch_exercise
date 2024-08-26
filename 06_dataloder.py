@@ -58,9 +58,7 @@ train_dataset = torchvision.datasets.MNIST(root='./data',
                                            transform=torchvision.transforms.ToTensor(),  
                                            download=True)
 
-train_loader = DataLoader(dataset=train_dataset, 
-                                           batch_size=3, 
-                                           shuffle=True)
+train_loader = DataLoader(dataset=train_dataset, batch_size=3, shuffle=True)
 
 # look at one random sample
 dataiter = iter(train_loader)
