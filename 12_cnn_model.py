@@ -29,9 +29,9 @@ numEpochs = 5
 learningRate = 0.001
 
 trainLoader = torch.utils.data.DataLoader(trainDataset, batch_size=batchSize, shuffle=True)
-trainLoader = torch.utils.data.DataLoader(testDataset, batch_size=batchSize, shuffle=True)
+testLoader = torch.utils.data.DataLoader(testDataset, batch_size=batchSize, shuffle=True)
 
-print(trainDataset.__getitem__(0))
+# print(trainDataset.__getitem__(0))
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -48,8 +48,8 @@ dataiter = iter(trainLoader)
 images, labels = next(dataiter)
 
 # show images
-imshow(make_grid(images))
-print(' '.join('%5s' % classes[labels[j]] for j in range(batchSize)))
+# imshow(make_grid(images))
+# print(' '.join('%5s' % classes[labels[j]] for j in range(batchSize)))
 
 class ConvNet(nn.Module):
     def __init__(self):
@@ -76,3 +76,51 @@ criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.SGD(model.parameters(), lr=learningRate)
 nTotalSteps = len(trainLoader)
 
+for epoch in range(numEpochs):
+    for i, (images, labels) in enumerate(trainLoader):
+        # origin shape: [4, 3, 32, 32] = 4, 3, 1024
+        # input_layer: 3 input channels, 6 output channels, 5 kernel size
+        images = images.to(device)
+        labels = labels.to(device)
+
+        # Forward pass
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+
+        # Backward and optimize
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if (i+1) % 2000 == 0:
+            print (f'Epoch [{epoch+1}/{numEpochs}], Step [{i+1}/{nTotalSteps}], Loss: {loss.item():.4f}')
+
+print('Finished Training')
+
+with torch.no_grad():
+    nCorrect = 0
+    nSamples = 0
+    nClassCorrect = [0 for i in range(10)]
+    nClassSamples = [0 for i in range(10)]
+    for images, labels in testLoader:
+        images = images.to(device)
+        labels = labels.to(device)
+        outputs = model(images)
+        # max returns (value ,index)
+        _, predicted = torch.max(outputs, 1)
+        nSamples += labels.size(0)
+        nCorrect += (predicted == labels).sum().item()
+        
+        for i in range(batchSize):
+            label = labels[i]
+            pred = predicted[i]
+            if (label == pred):
+                nClassCorrect[label] += 1
+            nClassSamples[label] += 1
+
+    acc = 100.0 * nCorrect / nSamples
+    print(f'Accuracy of the network: {acc} %')
+
+    for i in range(10):
+        acc = 100.0 * nClassCorrect[i] / nClassSamples[i]
+        print(f'Accuracy of {classes[i]}: {acc} %')
