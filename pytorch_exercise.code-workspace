@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "code-runner.executorMap": {
+      "python": "/opt/anaconda3/envs/pytorch/bin/python"
+    }
+  }
+}
